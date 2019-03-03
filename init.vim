@@ -32,3 +32,7 @@ command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
 
 
+"fzf config
+nnoremap <C-p> :<C-u>FZF<CR>
+
+
