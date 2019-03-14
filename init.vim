@@ -33,6 +33,15 @@ set shiftwidth=4
 "source file, source means reload
 :nnoremap <leader>s :source %<cr> 
 
+"quit vim
+:nnoremap qq :q<cr>
+
+"write file
+:nnoremap <leader>w :w<cr>
+
+"escape remap
+:inoremap jk <esc>
+
 
 "ABBREVIATONS
 
