@@ -1,28 +1,26 @@
 set number
 set backspace=indent,eol,start
 set autoindent
+set smartindent
 set backup
 set history=100
 set ruler
 set showcmd
 set incsearch
-syntax on
-set hlsearch
-
-"Mapleader
-let mapleader = " "
-
-filetype plugin indent on
-
-autocmd FileType text setlocal textwidth=78
-autocmd BufReadPost * 
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \    exe "normal! g`\"" |
-    \ endif
-
 set tabstop=4
 set smarttab
 set shiftwidth=4
+set scrolloff=15
+
+syntax on
+filetype plugin indent on
+
+"Mapleader
+let mapleader = " "
+let maplocalleader= "," 
+
+map <localleader>r :!gcc % -o %< && ./%< <cr> 
+
 
 
 " CUSTOM KEY BINDINGS
@@ -31,10 +29,13 @@ set shiftwidth=4
 :nnoremap <leader>ev :vsplit $VIMRC<cr>
 
 "source file, source means reload
-:nnoremap <leader>s :source %<cr> 
+:nnoremap <leader>s :source $VIMRC<cr> 
 
 "quit vim
-:nnoremap qq :q<cr>
+:nnoremap q :q<cr>
+
+"force quit vim 
+:nnoremap <space>q :q!<cr> 
 
 "write file
 :nnoremap <leader>w :w<cr>
@@ -42,12 +43,34 @@ set shiftwidth=4
 "escape remap
 :inoremap jk <esc>
 
+"quickly move around the page
+
+
+"autofill prev words
+:inoremap <m-n> <c-n>
+:inoremap <m-p> <c-p>
+:nnoremap <m-n> <c-n>
+:nnoremap <m-p> <c-n>
+
+
+
+"FOR SPECIFIC FILE TYPES COMMAND
+
+"FOR C FILETYPE
+
+:augroup filetype_c
+
+"for c type files comments
+:autocmd FileType c nnoremap <buffer> <localleader>c I//<esc>
+
+"local abbreviations 
+:autocmd FileType c :iabbrev <buffer> #i #include
+:autocmd FileType c :iabbrev <buffer> #d #define
+
+:augroup END
+
 
 "ABBREVIATONS
-
-:iabbrev adn and
-:iabbrev #i #include 
-:iabbrev #d #define
 
 
 
@@ -60,7 +83,6 @@ call minpac#init()
 call minpac#add('tpope/vim-unimpaired')
 call minpac#add('tpope/vim-scriptease', {'type':'opt'})
 call minpac#add('k-takata/minpac', {'type': 'opt'})
-call minpac#add('ervandew/supertab')
 
 command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
@@ -76,8 +98,8 @@ map <C-o> :NERDTreeToggle<CR>
 "configuring ale 
 "for c linting
 let g:ale_linters = {
-\	'c': ['gcc'],
-\ }
+			\	'c': ['gcc'],
+			\ }
 
 "Mappings in the style of unimpaired-next
 nmap <silent> [W <Plug>(ale_first)
@@ -116,9 +138,6 @@ if has('nvim')
 	tnoremap <M-k> <c-\><c-n><c-w>k
 	tnoremap <M-l> <c-\><c-n><c-w>l
 endif
-
-
-
 
 
 
